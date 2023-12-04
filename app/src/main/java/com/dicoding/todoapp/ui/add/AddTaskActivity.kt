@@ -5,14 +5,23 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
+import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.dicoding.todoapp.R
+import com.dicoding.todoapp.data.Task
+import com.dicoding.todoapp.databinding.ActivityAddTaskBinding
+import com.dicoding.todoapp.ui.ViewModelFactory
 import com.dicoding.todoapp.utils.DatePickerFragment
 import java.text.SimpleDateFormat
 import java.util.*
 
 class AddTaskActivity : AppCompatActivity(), DatePickerFragment.DialogDateListener {
     private var dueDateMillis: Long = System.currentTimeMillis()
+    private lateinit var binding: ActivityAddTaskBinding
+    private val addTaskViewModel by viewModels<AddTaskViewModel> {
+        ViewModelFactory.getInstance(application)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,6 +40,13 @@ class AddTaskActivity : AppCompatActivity(), DatePickerFragment.DialogDateListen
         return when (item.itemId) {
             R.id.action_save -> {
                 //TODO 12 : Create AddTaskViewModel and insert new task to database
+                val taskTitle = binding.addEdTitle.text.toString()
+                val taskDescription = binding.addEdDescription.text.toString()
+
+                val createTask = Task(0, taskTitle, taskDescription, dueDateMillis, false)
+                addTaskViewModel.addTask(createTask)
+                Toast.makeText(this, "Task Added", Toast.LENGTH_SHORT).show()
+                finish()
                 true
             }
             else -> super.onOptionsItemSelected(item)
