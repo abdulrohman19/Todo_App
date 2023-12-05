@@ -30,7 +30,10 @@ class NotificationWorker(ctx: Context, params: WorkerParameters) : Worker(ctx, p
         return TaskStackBuilder.create(applicationContext).run {
             addNextIntentWithParentStack(intent)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
+                getPendingIntent(
+                    0,
+                    PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+                )
             } else {
                 getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT)
             }
@@ -40,7 +43,6 @@ class NotificationWorker(ctx: Context, params: WorkerParameters) : Worker(ctx, p
     override fun doWork(): Result {
         //TODO 14 : If notification preference on, get nearest active task from repository and show notification with pending intent
         val nearestTask = taskRepository.getNearestActiveTask()
-
         val notificationManager =
             applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
