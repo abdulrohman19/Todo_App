@@ -26,7 +26,8 @@ class AddTaskActivity : AppCompatActivity(), DatePickerFragment.DialogDateListen
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_add_task)
+        binding = ActivityAddTaskBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         supportActionBar?.title = getString(R.string.add_task)
 
